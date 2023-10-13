@@ -26,18 +26,19 @@
         <img src="./assets/logo-black.png" alt="" />
         <h2 class="fw-bold">Shutter Up!</h2>
         <h4 class="fw-normal mb-5">Your Journey Begins Here</h4>
-        <form>
+        <form id="loginForm">
           <div class="form-group mb-3">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputUsername1">Username</label>
             <input
-              type="email"
+              type="text"
               class="form-control"
-              id="exampleInputEmail1"
+              id="exampleInputUsername1"
               aria-describedby="emailHelp"
-              placeholder="Enter email"
+              placeholder="Username"
+              required
             />
             <small id="emailHelp" class="form-text text-muted"
-              >We'll never share your email with anyone else.</small
+              >Your privacy is our top priority.</small
             >
           </div>
           <div class="form-group mb-3">
@@ -47,6 +48,7 @@
               class="form-control"
               id="exampleInputPassword1"
               placeholder="Password"
+              required
             />
           </div>
           <div class="form-group form-check mb-3">
@@ -77,10 +79,30 @@
         </div>
       </div>
     </div>
+    <div class="cobaSet"></div>
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
+    <script>
+      $(document).ready(function () {
+        $("#loginForm").submit(function (event) {
+          event.preventDefault();
+
+          var username = $("#exampleInputUsername1").val();
+
+          // Store the username in session storage
+          sessionStorage.setItem("username", username);
+
+          var addusername = sessionStorage.getItem("username");
+          // Display the username in the 'cobaSet' div
+          $(".cobaSet").text("Stored username: " + addusername);
+
+          // Redirect to main.html
+          window.location.href = "main.html";
+        });
+      });
+    </script>
   </body>
 </html>
