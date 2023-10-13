@@ -13,14 +13,69 @@
     />
   </head>
   <body>
-    <!-- <video autoplay muted loop id="video-background">
+    <video autoplay muted loop id="video-background">
       <source src="./assets/CameraLensBg.mp4" type="video/mp4" />
-    </video> -->
+    </video>
     <div class="landingPageContainer d-flex">
       <div class="imgContainer">
-        <img src="./assets/cameralens.jpg" alt="" />
+        <!-- <img src="./assets/cameralens.jpg" alt="" /> -->
       </div>
-      <div class="loginContainer">hello world</div>
+      <div
+        class="loginContainer d-flex flex-column align-items-center justify-content-center pb-3"
+      >
+        <img src="./assets/logo-black.png" alt="" />
+        <h2 class="fw-bold">Shutter Up!</h2>
+        <h4 class="fw-normal mb-5">Your Journey Begins Here</h4>
+        <form>
+          <div class="form-group mb-3">
+            <label for="exampleInputEmail1">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+            />
+            <small id="emailHelp" class="form-text text-muted"
+              >We'll never share your email with anyone else.</small
+            >
+          </div>
+          <div class="form-group mb-3">
+            <label for="exampleInputPassword1">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="Password"
+            />
+          </div>
+          <div class="form-group form-check mb-3">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1"
+              >Remember me</label
+            >
+          </div>
+          <button type="submit" class="btn btn-dark w-100">Login</button>
+          <div class="d-flex align-items-center pt-2 bottomLinks mb-5">
+            <a href="#">Forgot Password?</a>
+          </div>
+        </form>
+        <div class="d-flex align-items-center pt-2 bottomLinks">
+          <p class="mb-0">Don't have an account?</p>
+          <a href="#" class="ms-2 fw-medium">Sign Up</a>
+        </div>
+        <div class="socialMedias mt-4">
+          <a href="#"><img src="./assets/facebook.svg" alt="" /></a>
+          <a href="#"><img src="./assets/twitter-x.svg" alt="" /></a>
+          <a href="https://www.instagram.com/alberttirtok/" target="_blank"
+            ><img src="./assets/instagram.svg" alt=""
+          /></a>
+        </div>
+      </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"

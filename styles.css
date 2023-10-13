@@ -4,8 +4,10 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  padding: 0;
   background-color: black;
 }
+
 #video-background {
   position: fixed;
   top: 0;
@@ -13,31 +15,80 @@ body {
   width: 100%;
   height: 100%;
   z-index: -100;
+  filter: blur(10px);
+  transform: scale(1.1);
   object-fit: cover;
 }
 
-.landingPageContainer {
+/* .landingPageContainer {
   border: 2px solid black;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* White background with 50% opacity (adjust alpha as needed) */
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 25px;
   width: 1000px;
   height: 750px;
-  display: flex; /* Add display flex to center the content */
-  align-items: center; /* Center vertically within the container */
+  display: flex;
+  align-items: center;
+  background-image: url("assets/cameralens.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right 50%;
+} */
+
+/* .imgContainer {
+  width: 500px;
+  overflow: hidden;
+} */
+
+.landingPageContainer {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 25px;
 }
 
 .imgContainer {
-  width: 500px;
+  background-image: url("assets/randlogin.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left 50%;
   overflow: hidden;
+  width: 500px;
+  height: 750px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 .imgContainer img {
   width: 1000px;
-  height: 750px;
+  /* height: 750px; */
+  height: auto;
+  transform: rotate(180deg);
   overflow: hidden;
+}
+
+.loginContainer {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  /* justify-content: center; */
+  width: 500px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.loginContainer img {
+  width: 100px;
+  height: 100px;
+  /* margin-top: 50px; */
+  /* margin-bottom: 50px; */
+}
+
+.bottomLinks a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.socialMedias img {
+  width: 25px;
+  height: auto;
+  margin-right: 15px;
 }
