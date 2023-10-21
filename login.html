@@ -11,6 +11,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <link rel="icon" type="image/x-icon" href="./assets/logo-white.ico" />
   </head>
   <body>
     <video autoplay muted loop id="video-background">
@@ -79,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class="cobaSet"></div>
+    <!-- <div class="cobaSet"></div> -->
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -97,7 +98,7 @@
 
           var addusername = sessionStorage.getItem("username");
           // Display the username in the 'cobaSet' div
-          $(".cobaSet").text("Stored username: " + addusername);
+          // $(".cobaSet").text("Stored username: " + addusername);
 
           // Redirect to main.html
           window.location.href = "main.html";

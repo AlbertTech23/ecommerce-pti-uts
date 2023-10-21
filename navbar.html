@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ALT Equipment</title>
+    <link rel="icon" type="image/x-icon" href="./assets/logo-white.ico" />
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,14 +18,30 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ps-5 pe-5">
       <div class="container-fluid">
-        <a class="navbar-brand logoNavBar" href="main.html">
+        <a class="navbar-brand logoNavBar me-5 pe-3" href="main.html">
           <img
             src="./assets/logoNavbarPutih.png"
             alt="ALT Equipment Logo"
             class="img-fluid"
           />
         </a>
-
+        <div class="disable-small w-50">
+          <div class="d-flex mx-5 w-100 ms-5 ps-5 mw-100 justify-content-end">
+            <input
+              class="form-control me-2 rounded-5"
+              type="search"
+              placeholder="FX3, A7S III, etc."
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-light rounded-5 d-flex justify-content-center align-items-center"
+              type="submit"
+            >
+              <span class="">Search</span
+              ><img class="ms-md-3 ms-0" src="./assets/search.svg" alt="" />
+            </button>
+          </div>
+        </div>
         <button
           class="navbar-toggler custom-toggler border-white"
           type="button"
@@ -40,22 +58,53 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
             <a
-              class="nav-link active text-white"
+              class="nav-link active text-white pe-4"
               aria-current="page"
               href="main.html"
               >Home</a
             >
-            <a class="nav-link text-white" href="aboutme.html">About Me</a>
+            <a class="nav-link text-white me-5" href="aboutme.html">About Me</a>
             <a class="nav-link text-white" href="login.html">Login</a>
-            <a id="usernameDisplay" class="nav-link text-white ms-5" href="#"
-              >Login</a
-            >
+          </div>
+
+          <div class="d-flex ps-0 p-2">
+            <span class="text-white me-5 fs-6 disable-small">|</span>
+            <p class="mb-0 me-4 text-white">
+              Balance: <span id="balanceDisplay" class="fw-bold">$</span>
+            </p>
+            <img class="person-logo" src="./assets/person.svg" alt="" />
+            <div class="dropdown ms-2">
+              <a
+                class="nav-link text-white dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span id="usernameDisplay"></span>
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </div>
+            <div class="shopping-cart ms-5">
+              <span class="cart-size edit-number"></span>
+              <a href="cart.html">
+                <img
+                  class="person-logo"
+                  src="./assets/cart.svg"
+                  alt="Go to Cart"
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -71,10 +120,34 @@
           // Hide the "Login" link
           $(".nav-link[href='login.html']").hide();
           // Show the username in the designated element
-          $("#usernameDisplay").text("Welcome, " + username);
+          $("#usernameDisplay").text(username);
           $("#usernameDisplay").show(); // Display the username element
+        }
+        setBalance(100);
+      });
+    </script>
+    <script>
+      function getBalance() {
+        return document.getElementById("balanceDisplay").innerText;
+      }
+
+      function setBalance(balance) {
+        document.getElementById("balanceDisplay").innerText = "$" + balance;
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Retrieve the cart size from session storage
+        var cartSize = JSON.parse(sessionStorage.getItem("cart"));
+
+        // Check if the cart size exists
+        if (cartSize !== null) {
+          // Show the cart size in the designated element
+          $(".cart-size").text(cartSize.length);
         }
       });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
   </body>
 </html>

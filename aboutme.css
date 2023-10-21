@@ -5,7 +5,11 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: ghostwhite;
+  background-color: rgb(248, 249, 250);
+}
+
+.lebarin {
+  max-width: 100%;
 }
 
 .fotoAlbert img {
@@ -18,4 +22,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .my-name h1 {
+    font-size: 48px;
+  }
 }
