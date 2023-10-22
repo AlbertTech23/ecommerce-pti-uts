@@ -1,0 +1,48 @@
+body {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(248, 249, 250);
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Style for each product card */
+.cardContainer {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect on product cards */
+.cardContainer:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for product image */
+.cardContainer img {
+  border-radius: 8px;
+}
+
+/* Style for product details */
+.cardContainer {
+  padding: 20px;
+}
+
+.cardContainer {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.prod-price {
+  font-size: 1.2rem;
+}

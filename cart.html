@@ -12,6 +12,234 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="cart.css" />
   </head>
-  <body></body>
+  <body>
+    <div id="navbarContainer"></div>
+    <!-- Cart -->
+    <div class="pt-5 text-center"><h1>Shopping Cart</h1></div>
+    <div class="cart-parent-container p-5 ms-md-5 ms-0">
+      <div class="row">
+        <div class="col-md-7" id="cart-products"></div>
+        <div class="col-md-1"></div>
+
+        <div
+          class="payment-details col-md-3 d-flex flex-column justify-content-center p-5 border"
+          style="margin: 0 auto"
+        >
+          <img src="./assets/logo-black.png" alt="" class="w-25" />
+          <h2>Checkout</h2>
+          <h4 class="pt-3">Payment Details</h4>
+          <span
+            >Complete your purchase by providing your payment details
+            below.</span
+          >
+          <div class="payment-methods pt-5">
+            <h4>Payment Methods</h4>
+            <select id="paymentMethod" name="paymentMethod">
+              <option value="Credit Card">Credit Card</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+          <div class="payment-info pt-5">
+            <h4 class="">Total:</h4>
+            <p id="total-price"></p>
+          </div>
+          <div class="place-order mt-4">
+            <button class="btn btn-dark" onclick="checkout()">
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="cart-container">
+      <h1>Cart</h1>
+
+      <div id="cart-items"></div>
+
+      <div class="total-container">
+        <p>Total:</p>
+        <p id="total-price"></p>
+      </div>
+
+      <button class="btn btn-primary" onclick="checkout()">Checkout</button>
+    </div> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script>
+      const navbarContainer = document.getElementById("navbarContainer");
+
+      // Fetch "navbar.html"
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          // Insert the content into the "navbarContainer"
+          navbarContainer.innerHTML = data;
+
+          // Run your code after inserting the content
+          $(document).ready(function () {
+            // Retrieve the username from session storage
+            var username = sessionStorage.getItem("username");
+
+            // Check if the username exists
+            if (username !== null) {
+              // Hide the "Login" link
+              $(".nav-link[href='login.html']").hide();
+              // Show the username in the designated element
+              $("#usernameDisplay").text(username);
+              $("#usernameDisplay").show(); // Display the username element
+            }
+            setBalance(100);
+            updateCartCount();
+          });
+        });
+    </script>
+    <script>
+      function getBalance() {
+        return document.getElementById("balanceDisplay").innerText;
+      }
+
+      function setBalance(balance) {
+        document.getElementById("balanceDisplay").innerText = "$" + balance;
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Retrieve the cart size from session storage
+        var cartSize = JSON.parse(sessionStorage.getItem("cart"));
+
+        // Check if the cart size exists
+        if (cartSize !== null) {
+          // Show the cart size in the designated element
+          $(".cart-size").text(cartSize.length);
+        }
+      });
+
+      function updateCartCount() {
+        let cart = JSON.parse(sessionStorage.getItem("cart"));
+        $(".cart-size").text(cart.length);
+      }
+    </script>
+    <script type="module">
+      import("./products.js").then(({ PRODUCTS }) => {
+        // Get the cart from session storage
+        let cart = JSON.parse(sessionStorage.getItem("cart"));
+
+        // If the cart is null or empty, display a message
+        if (cart === null || cart.length === 0) {
+          $("#cart-products").html("<p>Your cart is empty.</p>");
+        } else {
+          // Create an object to store the quantities of each product
+          let quantities = {};
+
+          // Count the quantity of each product in the cart
+          cart.forEach((productId) => {
+            quantities[productId] = (quantities[productId] || 0) + 1;
+          });
+
+          // Display the products in the cart
+          let productsHtml = "";
+          for (let productId in quantities) {
+            if (quantities.hasOwnProperty(productId)) {
+              // Look up the product information from the PRODUCTS array using the product ID
+              const product = PRODUCTS.find(
+                (p) => p.id === parseInt(productId)
+              );
+
+              // Generate HTML code for displaying the product information with quantity
+              productsHtml += `
+              <div class="cardContainer mb-3" id="product-${productId}">
+                <div class="row p-5">
+                  <div class="col-md-4 pe-5">
+                    <img src="${product.productImage}" alt="${product.productName}" class="img-fluid rounded-start">
+                  </div>
+                  <div class="col-md-6">
+                    <div class="cart-card">
+                      <h5 class="prod-title">${product.productName}</h5>
+                      <p class="prod-price">$${product.discountedPrice}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 d-flex flex-column justify-content-center">
+                    <button type="button" class="btn btn-outline-dark mb-2" onclick="addToCart(${productId})">Add Item</button>
+                    <span class="mb-2 text-center">${quantities[productId]}</span>
+                    <button type="button" class="btn btn-outline-danger besarin-dikit" onclick="removeFromCart(${productId})">Remove</button>
+                  </div>
+                </div>
+              </div>
+              `;
+            }
+          }
+          $("#cart-products").html(productsHtml);
+        }
+      });
+    </script>
+    <script>
+      function getProductQuantity(productId) {
+        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
+        return quantities[productId] || 1;
+      }
+    </script>
+    <script>
+      function calculateTotalPrice() {
+        const quantities =
+          JSON.parse(sessionStorage.getItem("quantities")) || {};
+        let totalPrice = 0;
+
+        for (let productId in quantities) {
+          if (quantities.hasOwnProperty(productId)) {
+            const product = PRODUCTS.find((p) => p.id === parseInt(productId));
+            const quantity = quantities[productId] || 1;
+            totalPrice += product.discountedPrice * quantity;
+          }
+        }
+
+        return totalPrice;
+      }
+
+      function updatePaymentDetails() {
+        const totalPrice = calculateTotalPrice();
+
+        $("#total-price").text("$" + totalPrice.toFixed(2));
+      }
+
+      $(document).ready(function () {
+        updatePaymentDetails();
+      });
+    </script>
+    <script>
+      function updateCartDisplay(productId) {
+        let productQuantity = getProductQuantity(productId);
+        $(`#product-${productId} .text-center`).text(productQuantity);
+
+        updatePaymentDetails();
+        updateCartCount();
+      }
+
+      function addToCart(productId) {
+        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
+        quantities[productId] = (quantities[productId] || 0) + 1;
+        sessionStorage.setItem("quantities", JSON.stringify(quantities));
+
+        updateCartCount();
+        updateCartDisplay(productId);
+      }
+
+      function removeFromCart(productId) {
+        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
+        quantities[productId] = Math.max((quantities[productId] || 0) - 1, 0);
+        sessionStorage.setItem("quantities", JSON.stringify(quantities));
+
+        updateCartCount();
+        updateCartDisplay(productId);
+      }
+    </script> -->
+  </body>
 </html>

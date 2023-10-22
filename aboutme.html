@@ -95,6 +95,7 @@
               $("#usernameDisplay").show(); // Display the username element
             }
             setBalance(100);
+            updateCartCount();
           });
         });
     </script>
@@ -105,6 +106,23 @@
 
       function setBalance(balance) {
         document.getElementById("balanceDisplay").innerText = "$" + balance;
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Retrieve the cart size from session storage
+        var cartSize = JSON.parse(sessionStorage.getItem("cart"));
+
+        // Check if the cart size exists
+        if (cartSize !== null) {
+          // Show the cart size in the designated element
+          $(".cart-size").text(cartSize.length);
+        }
+      });
+
+      function updateCartCount() {
+        let cart = JSON.parse(sessionStorage.getItem("cart"));
+        $(".cart-size").text(cart.length);
       }
     </script>
   </body>

@@ -54,6 +54,7 @@
               $("#usernameDisplay").show(); // Display the username element
             }
             setBalance(100);
+            updateCartCount();
           });
         });
     </script>
@@ -92,6 +93,7 @@
         document.getElementById("balanceDisplay").innerText = "$" + balance;
       }
     </script>
+
     <script>
       function addToCart(productId) {
         // Get the current cart from session storage
