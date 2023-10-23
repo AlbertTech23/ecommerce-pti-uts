@@ -93,14 +93,11 @@
 
           var username = $("#exampleInputUsername1").val();
 
-          // Store the username in session storage
           sessionStorage.setItem("username", username);
 
-          var addusername = sessionStorage.getItem("username");
-          // Display the username in the 'cobaSet' div
-          // $(".cobaSet").text("Stored username: " + addusername);
+          sessionStorage.setItem("balance", 10000.0);
+          console.log(sessionStorage.getItem("balance"));
 
-          // Redirect to main.html
           window.location.href = "main.html";
         });
       });

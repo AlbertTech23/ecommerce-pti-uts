@@ -15,9 +15,9 @@
     <script src="navbar.js"></script>
   </head>
   <body>
-    <!-- navbar -->
+    <!-- Navbar -->
     <div id="navbarContainer"></div>
-    <!-- products -->
+    <!-- Products -->
     <div
       class="products d-flex flex-wrap p-5 m-5 justify-content-center"
       id="productList"
@@ -30,36 +30,34 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
+
     <script>
       const navbarContainer = document.getElementById("navbarContainer");
 
-      // Fetch "navbar.html"
       fetch("navbar.html")
         .then((response) => response.text())
         .then((data) => {
-          // Insert the content into the "navbarContainer"
           navbarContainer.innerHTML = data;
 
-          // Run your code after inserting the content
           $(document).ready(function () {
-            // Retrieve the username from session storage
             var username = sessionStorage.getItem("username");
 
-            // Check if the username exists
             if (username !== null) {
-              // Hide the "Login" link
               $(".nav-link[href='login.html']").hide();
-              // Show the username in the designated element
               $("#usernameDisplay").text(username);
-              $("#usernameDisplay").show(); // Display the username element
+              $("#usernameDisplay").show();
             }
-            setBalance(100);
+
+            var balance = sessionStorage.getItem("balance");
+            if (balance !== null) {
+              $("#balanceDisplay").text("$" + balance);
+            }
             updateCartCount();
           });
         });
     </script>
     <script type="module">
-      import { PRODUCTS } from "./products.js"; // import { PRODUCTS } from "./products.js";
+      import { PRODUCTS } from "./products.js";
       function displayProducts() {
         const productList = document.getElementById("productList");
 
@@ -84,33 +82,19 @@
       }
       displayProducts();
     </script>
-    <script>
-      function getBalance() {
-        return document.getElementById("balanceDisplay").innerText;
-      }
-
-      function setBalance(balance) {
-        document.getElementById("balanceDisplay").innerText = "$" + balance;
-      }
-    </script>
 
     <script>
       function addToCart(productId) {
-        // Get the current cart from session storage
         let cart = JSON.parse(sessionStorage.getItem("cart"));
 
-        // If the cart is null, set it to an empty array
         if (cart === null) {
           cart = [];
         }
 
-        // Add the product ID to the cart
         cart.push(productId);
 
-        // Save the cart in session storage
         sessionStorage.setItem("cart", JSON.stringify(cart));
 
-        // Update the cart count on the screen
         updateCartCount();
       }
 
@@ -120,6 +104,17 @@
       }
 
       updateCartCount();
+    </script>
+    <script>
+      $(document).ready(function () {
+        var cartSize = JSON.parse(sessionStorage.getItem("cart"));
+
+        if (cartSize !== null) {
+          $(".cart-size").text(cartSize.length);
+        } else {
+          $(".cart-size").text(0);
+        }
+      });
     </script>
   </body>
 </html>

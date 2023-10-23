@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+          <h2 class="text-center">Checkout</h2>
+          <div class="card p-3">
+            <h4>
+              Thank you for your purchase, <span id="usernameDisplay"></span>!
+            </h4>
+            <p>Your order has been successfully placed.</p>
+            <p>Your total amount has been deducted from your balance.</p>
+            <p>Order ID: #123456</p>
+            <p>Estimated Delivery Date: October 31, 2023</p>
+            <p>Shipping Address: <span id="shippingAddressDisplay"></span></p>
+          </div>
+          <div class="text-center mt-3">
+            <a href="main.html" class="btn btn-primary">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var username = sessionStorage.getItem("username");
+      var shippingAddress = sessionStorage.getItem("shippingAddress");
+
+      if (username !== null) {
+        document.getElementById("usernameDisplay").textContent = username;
+      }
+
+      if (shippingAddress !== null) {
+        document.getElementById("shippingAddressDisplay").textContent =
+          shippingAddress;
+      }
+    </script>
+  </body>
+</html>

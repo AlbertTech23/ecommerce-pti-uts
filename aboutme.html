@@ -74,49 +74,38 @@
     <script>
       const navbarContainer = document.getElementById("navbarContainer");
 
-      // Fetch "navbar.html"
       fetch("navbar.html")
         .then((response) => response.text())
         .then((data) => {
-          // Insert the content into the "navbarContainer"
           navbarContainer.innerHTML = data;
 
-          // Run your code after inserting the content
           $(document).ready(function () {
-            // Retrieve the username from session storage
             var username = sessionStorage.getItem("username");
 
-            // Check if the username exists
             if (username !== null) {
-              // Hide the "Login" link
               $(".nav-link[href='login.html']").hide();
-              // Show the username in the designated element
               $("#usernameDisplay").text(username);
-              $("#usernameDisplay").show(); // Display the username element
+              $("#usernameDisplay").show();
             }
-            setBalance(100);
+
+            var balance = sessionStorage.getItem("balance");
+            if (balance !== null) {
+              $("#balanceDisplay").text("$" + balance);
+            }
+
             updateCartCount();
           });
         });
     </script>
-    <script>
-      function getBalance() {
-        return document.getElementById("balanceDisplay").innerText;
-      }
 
-      function setBalance(balance) {
-        document.getElementById("balanceDisplay").innerText = "$" + balance;
-      }
-    </script>
     <script>
       $(document).ready(function () {
-        // Retrieve the cart size from session storage
         var cartSize = JSON.parse(sessionStorage.getItem("cart"));
 
-        // Check if the cart size exists
         if (cartSize !== null) {
-          // Show the cart size in the designated element
           $(".cart-size").text(cartSize.length);
+        } else {
+          $(".cart-size").text(0);
         }
       });
 

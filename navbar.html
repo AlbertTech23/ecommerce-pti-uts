@@ -64,11 +64,14 @@
               >Home</a
             >
             <a class="nav-link text-white me-5" href="aboutme.html">About Me</a>
-            <a class="nav-link text-white" href="login.html">Login</a>
           </div>
 
           <div class="d-flex ps-0 p-2">
             <span class="text-white me-5 fs-6 disable-small">|</span>
+            <a class="nav-link text-white pe-5 fw-bolder" href="login.html"
+              >Login</a
+            >
+
             <p class="mb-0 me-4 text-white">
               Balance: <span id="balanceDisplay" class="fw-bold">$</span>
             </p>
@@ -87,7 +90,7 @@
 
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" href="#">Account Settings</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="login.html">Logout</a></li>
               </ul>
             </div>
             <div class="shopping-cart ms-5">
@@ -110,40 +113,35 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
+
     <script>
       $(document).ready(function () {
-        // Retrieve the username from session storage
         var username = sessionStorage.getItem("username");
 
-        // Check if the username exists
         if (username !== null) {
-          // Hide the "Login" link
           $(".nav-link[href='login.html']").hide();
-          // Show the username in the designated element
           $("#usernameDisplay").text(username);
-          $("#usernameDisplay").show(); // Display the username element
+          $("#usernameDisplay").show();
         }
-        setBalance(100);
+
+        var balance = sessionStorage.getItem("balance");
+
+        if (balance !== null) {
+          $("#balanceDisplay").text("$" + balance);
+        } else {
+          $("#balanceDisplay").text("$0.00");
+        }
       });
     </script>
-    <script>
-      function getBalance() {
-        return document.getElementById("balanceDisplay").innerText;
-      }
 
-      function setBalance(balance) {
-        document.getElementById("balanceDisplay").innerText = "$" + balance;
-      }
-    </script>
     <script>
       $(document).ready(function () {
-        // Retrieve the cart size from session storage
         var cartSize = JSON.parse(sessionStorage.getItem("cart"));
 
-        // Check if the cart size exists
         if (cartSize !== null) {
-          // Show the cart size in the designated element
           $(".cart-size").text(cartSize.length);
+        } else {
+          $(".cart-size").text(0);
         }
       });
     </script>

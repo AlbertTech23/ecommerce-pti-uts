@@ -33,7 +33,17 @@
             >Complete your purchase by providing your payment details
             below.</span
           >
-          <div class="payment-methods pt-5">
+          <div class="payment-shipping">
+            <h4 class="pt-4">Shipping Address</h4>
+            <input
+              type="text"
+              class="form-control"
+              id="shippingAddress"
+              placeholder="Doe Street"
+              required
+            />
+          </div>
+          <div class="payment-methods pt-4">
             <h4>Payment Methods</h4>
             <select id="paymentMethod" name="paymentMethod">
               <option value="Credit Card">Credit Card</option>
@@ -41,7 +51,7 @@
               <option value="Bank Transfer">Bank Transfer</option>
             </select>
           </div>
-          <div class="payment-info pt-5">
+          <div class="payment-info pt-4">
             <h4 class="">Total:</h4>
             <p id="total-price"></p>
           </div>
@@ -78,20 +88,15 @@
               $("#usernameDisplay").text(username);
               $("#usernameDisplay").show();
             }
-            setBalance(100);
+
+            var balance = sessionStorage.getItem("balance");
+            if (balance !== null) {
+              $("#balanceDisplay").text("$" + balance);
+            }
+
             updateCartCount();
           });
         });
-    </script>
-
-    <script>
-      function getBalance() {
-        return document.getElementById("balanceDisplay").innerText;
-      }
-
-      function setBalance(balance) {
-        document.getElementById("balanceDisplay").innerText = "$" + balance;
-      }
     </script>
 
     <script>
@@ -100,6 +105,8 @@
 
         if (cartSize !== null) {
           $(".cart-size").text(cartSize.length);
+        } else {
+          $(".cart-size").text(0);
         }
       });
 
@@ -112,11 +119,9 @@
     <script type="module">
       import { PRODUCTS } from "./products.js";
 
-      // Function to calculate the total price
       function calculateTotalPrice(cart) {
         let totalPrice = 0;
 
-        // Loop through the items in the cart and calculate the total
         for (const productId of cart) {
           const product = PRODUCTS.find((p) => p.id === productId);
           if (product) {
@@ -124,17 +129,15 @@
           }
         }
 
-        return totalPrice.toFixed(2); // Format to two decimal places
+        return totalPrice.toFixed(2);
       }
 
-      // Update the total price on page load
       updateTotalPrice();
 
       function updateTotalPrice() {
         let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
         const totalPrice = calculateTotalPrice(cart);
 
-        // Update the total price element
         document.getElementById("total-price").textContent = `$${totalPrice}`;
       }
 
@@ -144,7 +147,8 @@
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateCartCount();
         updateTotalPrice();
-        console.log("clicked add");
+        updateQuantityDisplay(productId);
+        updateCartDisplay();
       }
 
       function removeFromCart(productId) {
@@ -156,10 +160,10 @@
         }
         updateCartCount();
         updateTotalPrice();
-        console.log("clicked remove");
+        updateQuantityDisplay(productId);
+        updateCartDisplay();
       }
 
-      // Replace the document.ready block with the following
       $(document).ready(function () {
         $("button[data-action='add']").on("click", function () {
           const productId = parseInt($(this).data("product-id"));
@@ -171,51 +175,130 @@
           removeFromCart(productId);
         });
       });
+
+      function updateQuantityDisplay(productId) {
+        let quantities = {};
+        const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+        cart.forEach((id) => {
+          quantities[id] = (quantities[id] || 0) + 1;
+        });
+
+        const quantity = quantities[productId];
+        document.getElementById(`quantity-${productId}`).textContent = quantity;
+
+        if (!quantities.hasOwnProperty(productId)) {
+          const productElement = document.getElementById(
+            `product-${productId}`
+          );
+          if (productElement) {
+            productElement.remove();
+            updateCartDisplay();
+          }
+        }
+      }
     </script>
 
     <script type="module">
-      import("./products.js").then(({ PRODUCTS }) => {
-        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+      function updateCartDisplay() {
+        import("./products.js").then(({ PRODUCTS }) => {
+          let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-        if (cart === null || cart.length === 0) {
-          $("#cart-products").html("<p>Your cart is empty.</p>");
-        } else {
-          let quantities = {};
+          if (cart === null || cart.length === 0) {
+            $("#cart-products").html("<p>Your cart is empty.</p>");
+          } else {
+            let quantities = {};
 
-          cart.forEach((productId) => {
-            quantities[productId] = (quantities[productId] || 0) + 1;
-          });
+            cart.forEach((productId) => {
+              quantities[productId] = (quantities[productId] || 0) + 1;
+            });
 
-          let productsHtml = "";
-          for (let productId in quantities) {
-            if (quantities.hasOwnProperty(productId)) {
-              const product = PRODUCTS.find(
-                (p) => p.id === parseInt(productId)
-              );
+            let productsHtml = "";
+            for (let productId in quantities) {
+              if (quantities.hasOwnProperty(productId)) {
+                const product = PRODUCTS.find(
+                  (p) => p.id === parseInt(productId)
+                );
 
-              productsHtml += `
-          <div class="cardContainer mb-3" id="product-${productId}">
-            <div class="row p-5">
-              <div class="col-md-4 pe-5">
-                <img src="${product.productImage}" alt="${product.productName}" class="img-fluid rounded-start">
-              </div>
-              <div class="col-md-6">
-                <div class="cart-card">
-                  <h5 class="prod-title">${product.productName}</h5>
-                  <p class="prod-price">$${product.discountedPrice}</p>
+                productsHtml += `
+                <div class="cardContainer mb-3" id="product-${productId}">
+                  <div class="row p-5">
+                    <div class="col-md-4 pe-5">
+                      <img src="${product.productImage}" alt="${product.productName}" class="img-fluid rounded-start">
+                    </div>
+                    <div class="col-md-6">
+                      <div class="cart-card">
+                        <h5 class="prod-title">${product.productName}</h5>
+                        <p class="prod-price">$${product.discountedPrice}</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2 d-flex flex-column justify-content-center">
+                      <button type="button" class="btn btn-outline-dark mb-2" data-action='add' data-product-id="${productId}" ">Add Item</button>
+                      <span class="mb-2 text-center" id="quantity-${productId}">${quantities[productId]}</span>
+                      <button type="button" class="btn btn-outline-danger besarin-dikit" data-action='remove' data-product-id="${productId}"">Remove</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-2 d-flex flex-column justify-content-center">
-                <button type="button" class="btn btn-outline-dark mb-2" data-action='add' data-product-id="${productId}" ">Add Item</button>
-                 <span class="mb-2 text-center" id="quantity-${productId}">${quantities[productId]}</span>
-                 <button type="button" class="btn btn-outline-danger besarin-dikit" data-action='remove' data-product-id="${productId}"">Remove</button>              </div>
-            </div>
-          </div>
-        `;
+              `;
+              }
             }
+            $("#cart-products").html(productsHtml);
           }
-          $("#cart-products").html(productsHtml);
+        });
+      }
+
+      updateCartDisplay();
+    </script>
+    <script>
+      function getBalance() {
+        const balance = sessionStorage.getItem("balance");
+        return balance !== null ? parseFloat(balance) : 0.0;
+      }
+
+      function checkout() {
+        const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const shippingAddressInput = document.getElementById("shippingAddress");
+        const address = shippingAddressInput.value;
+
+        if (cart.length === 0) {
+          alert("Your cart is empty. Please add items to your cart.");
+          return;
         }
+
+        if (address.trim() === "") {
+          alert("Please enter a shipping address.");
+          return;
+        }
+
+        const total = parseFloat(
+          document.getElementById("total-price").textContent.replace("$", "")
+        );
+        let balance = getBalance();
+
+        if (balance >= total) {
+          balance -= total;
+
+          sessionStorage.removeItem("cart");
+
+          sessionStorage.setItem("balance", balance.toFixed(2));
+
+          window.location.href = "checkout.html";
+        } else {
+          alert("Insufficient balance. Please add funds to your account.");
+        }
+      }
+    </script>
+    <script>
+      var shippingAddress = sessionStorage.getItem("shippingAddress");
+
+      var shippingAddressInput = document.getElementById("shippingAddress");
+
+      if (shippingAddress !== null) {
+        shippingAddressInput.value = shippingAddress;
+      }
+
+      shippingAddressInput.addEventListener("input", function () {
+        sessionStorage.setItem("shippingAddress", shippingAddressInput.value);
       });
     </script>
   </body>
