@@ -16,7 +16,6 @@
   </head>
   <body>
     <div id="navbarContainer"></div>
-    <!-- Cart -->
     <div class="pt-5 text-center"><h1>Shopping Cart</h1></div>
     <div class="cart-parent-container p-5 ms-md-5 ms-0">
       <div class="row">
@@ -54,18 +53,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="cart-container">
-      <h1>Cart</h1>
-
-      <div id="cart-items"></div>
-
-      <div class="total-container">
-        <p>Total:</p>
-        <p id="total-price"></p>
-      </div>
-
-      <button class="btn btn-primary" onclick="checkout()">Checkout</button>
-    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
@@ -74,34 +61,29 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-    <!-- <script>
+
+    <script>
       const navbarContainer = document.getElementById("navbarContainer");
 
-      // Fetch "navbar.html"
       fetch("navbar.html")
         .then((response) => response.text())
         .then((data) => {
-          // Insert the content into the "navbarContainer"
           navbarContainer.innerHTML = data;
 
-          // Run your code after inserting the content
           $(document).ready(function () {
-            // Retrieve the username from session storage
             var username = sessionStorage.getItem("username");
 
-            // Check if the username exists
             if (username !== null) {
-              // Hide the "Login" link
               $(".nav-link[href='login.html']").hide();
-              // Show the username in the designated element
               $("#usernameDisplay").text(username);
-              $("#usernameDisplay").show(); // Display the username element
+              $("#usernameDisplay").show();
             }
             setBalance(100);
             updateCartCount();
           });
         });
     </script>
+
     <script>
       function getBalance() {
         return document.getElementById("balanceDisplay").innerText;
@@ -111,135 +93,130 @@
         document.getElementById("balanceDisplay").innerText = "$" + balance;
       }
     </script>
+
     <script>
       $(document).ready(function () {
-        // Retrieve the cart size from session storage
         var cartSize = JSON.parse(sessionStorage.getItem("cart"));
 
-        // Check if the cart size exists
         if (cartSize !== null) {
-          // Show the cart size in the designated element
           $(".cart-size").text(cartSize.length);
         }
       });
 
       function updateCartCount() {
-        let cart = JSON.parse(sessionStorage.getItem("cart"));
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
         $(".cart-size").text(cart.length);
       }
     </script>
+
+    <script type="module">
+      import { PRODUCTS } from "./products.js";
+
+      // Function to calculate the total price
+      function calculateTotalPrice(cart) {
+        let totalPrice = 0;
+
+        // Loop through the items in the cart and calculate the total
+        for (const productId of cart) {
+          const product = PRODUCTS.find((p) => p.id === productId);
+          if (product) {
+            totalPrice += product.discountedPrice;
+          }
+        }
+
+        return totalPrice.toFixed(2); // Format to two decimal places
+      }
+
+      // Update the total price on page load
+      updateTotalPrice();
+
+      function updateTotalPrice() {
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const totalPrice = calculateTotalPrice(cart);
+
+        // Update the total price element
+        document.getElementById("total-price").textContent = `$${totalPrice}`;
+      }
+
+      function addToCart(productId) {
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        cart.push(productId);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        updateTotalPrice();
+        console.log("clicked add");
+      }
+
+      function removeFromCart(productId) {
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const index = cart.indexOf(productId);
+        if (index !== -1) {
+          cart.splice(index, 1);
+          sessionStorage.setItem("cart", JSON.stringify(cart));
+        }
+        updateCartCount();
+        updateTotalPrice();
+        console.log("clicked remove");
+      }
+
+      // Replace the document.ready block with the following
+      $(document).ready(function () {
+        $("button[data-action='add']").on("click", function () {
+          const productId = parseInt($(this).data("product-id"));
+          addToCart(productId);
+        });
+
+        $("button[data-action='remove']").on("click", function () {
+          const productId = parseInt($(this).data("product-id"));
+          removeFromCart(productId);
+        });
+      });
+    </script>
+
     <script type="module">
       import("./products.js").then(({ PRODUCTS }) => {
-        // Get the cart from session storage
-        let cart = JSON.parse(sessionStorage.getItem("cart"));
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-        // If the cart is null or empty, display a message
         if (cart === null || cart.length === 0) {
           $("#cart-products").html("<p>Your cart is empty.</p>");
         } else {
-          // Create an object to store the quantities of each product
           let quantities = {};
 
-          // Count the quantity of each product in the cart
           cart.forEach((productId) => {
             quantities[productId] = (quantities[productId] || 0) + 1;
           });
 
-          // Display the products in the cart
           let productsHtml = "";
           for (let productId in quantities) {
             if (quantities.hasOwnProperty(productId)) {
-              // Look up the product information from the PRODUCTS array using the product ID
               const product = PRODUCTS.find(
                 (p) => p.id === parseInt(productId)
               );
 
-              // Generate HTML code for displaying the product information with quantity
               productsHtml += `
-              <div class="cardContainer mb-3" id="product-${productId}">
-                <div class="row p-5">
-                  <div class="col-md-4 pe-5">
-                    <img src="${product.productImage}" alt="${product.productName}" class="img-fluid rounded-start">
-                  </div>
-                  <div class="col-md-6">
-                    <div class="cart-card">
-                      <h5 class="prod-title">${product.productName}</h5>
-                      <p class="prod-price">$${product.discountedPrice}</p>
-                    </div>
-                  </div>
-                  <div class="col-md-2 d-flex flex-column justify-content-center">
-                    <button type="button" class="btn btn-outline-dark mb-2" onclick="addToCart(${productId})">Add Item</button>
-                    <span class="mb-2 text-center">${quantities[productId]}</span>
-                    <button type="button" class="btn btn-outline-danger besarin-dikit" onclick="removeFromCart(${productId})">Remove</button>
-                  </div>
+          <div class="cardContainer mb-3" id="product-${productId}">
+            <div class="row p-5">
+              <div class="col-md-4 pe-5">
+                <img src="${product.productImage}" alt="${product.productName}" class="img-fluid rounded-start">
+              </div>
+              <div class="col-md-6">
+                <div class="cart-card">
+                  <h5 class="prod-title">${product.productName}</h5>
+                  <p class="prod-price">$${product.discountedPrice}</p>
                 </div>
               </div>
-              `;
+              <div class="col-md-2 d-flex flex-column justify-content-center">
+                <button type="button" class="btn btn-outline-dark mb-2" data-action='add' data-product-id="${productId}" ">Add Item</button>
+                 <span class="mb-2 text-center" id="quantity-${productId}">${quantities[productId]}</span>
+                 <button type="button" class="btn btn-outline-danger besarin-dikit" data-action='remove' data-product-id="${productId}"">Remove</button>              </div>
+            </div>
+          </div>
+        `;
             }
           }
           $("#cart-products").html(productsHtml);
         }
       });
     </script>
-    <script>
-      function getProductQuantity(productId) {
-        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
-        return quantities[productId] || 1;
-      }
-    </script>
-    <script>
-      function calculateTotalPrice() {
-        const quantities =
-          JSON.parse(sessionStorage.getItem("quantities")) || {};
-        let totalPrice = 0;
-
-        for (let productId in quantities) {
-          if (quantities.hasOwnProperty(productId)) {
-            const product = PRODUCTS.find((p) => p.id === parseInt(productId));
-            const quantity = quantities[productId] || 1;
-            totalPrice += product.discountedPrice * quantity;
-          }
-        }
-
-        return totalPrice;
-      }
-
-      function updatePaymentDetails() {
-        const totalPrice = calculateTotalPrice();
-
-        $("#total-price").text("$" + totalPrice.toFixed(2));
-      }
-
-      $(document).ready(function () {
-        updatePaymentDetails();
-      });
-    </script>
-    <script>
-      function updateCartDisplay(productId) {
-        let productQuantity = getProductQuantity(productId);
-        $(`#product-${productId} .text-center`).text(productQuantity);
-
-        updatePaymentDetails();
-        updateCartCount();
-      }
-
-      function addToCart(productId) {
-        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
-        quantities[productId] = (quantities[productId] || 0) + 1;
-        sessionStorage.setItem("quantities", JSON.stringify(quantities));
-
-        updateCartCount();
-        updateCartDisplay(productId);
-      }
-
-      function removeFromCart(productId) {
-        let quantities = JSON.parse(sessionStorage.getItem("quantities")) || {};
-        quantities[productId] = Math.max((quantities[productId] || 0) - 1, 0);
-        sessionStorage.setItem("quantities", JSON.stringify(quantities));
-
-        updateCartCount();
-        updateCartDisplay(productId);
-      }
-    </script> -->
   </body>
 </html>
