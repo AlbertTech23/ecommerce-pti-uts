@@ -141,7 +141,7 @@ body {
 #arrowDownContainer img {
   width: 50px;
   height: auto;
-  opacity: 0.25;
+  opacity: 0.3;
 }
 
 @keyframes bounce {
