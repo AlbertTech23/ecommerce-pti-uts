@@ -111,7 +111,6 @@
         </button>
       </div>
     </div>
-   
 
     <!-- Products -->
     <h1 class="text-center fw-bold pt-5">Product Highlights</h1>
@@ -195,6 +194,7 @@
             />
           </div>
         </div>
+
         <button
           class="carousel-control-prev"
           type="button"
@@ -214,8 +214,9 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+    </div>
     <div
-      class="popularBrands d-flex flex-column  pt-0 p-5 m-5 justify-content-center"
+      class="popularBrands d-flex flex-column pt-0 p-5 m-5 justify-content-center"
     >
       <h2 class="fw-bold mb-4 ms-5">Popular Brands</h2>
       <div
@@ -316,47 +317,37 @@
 
         updateCartCount();
       }
-
-      function updateCartCount() {
-        let cart = JSON.parse(sessionStorage.getItem("cart"));
-        $(".cart-size").text(cart.length);
-      }
-
-      updateCartCount();
     </script>
     <script>
       $(document).ready(function () {
         var cartSize = JSON.parse(sessionStorage.getItem("cart"));
-
-        if (cartSize !== null) {
-          $(".cart-size").text(cartSize.length);
-        } else {
-          $(".cart-size").text(0);
-        }
+        var cartSizeDisplay = cartSize || 0; // If cartSize is falsy, set it to 0
+        $(".cart-size").text(cartSizeDisplay);
       });
-    </script>
-  </body>
-  <footer class="bg-dark text-light">
-    <div class="container py-4">
-      <div class="row">
-        <div class="col-md-6">
-          <h2 class="fw-bold mb-3">Contact Us</h2>
-          <p class="mb-2">altequipment23@gmail.com</p>
-          <p>Phone: +12 345-678-901</p>
-        </div>
-        <div class="col-md-6 d-flex flex-column align-items-end">
-          <h2 class="fw-bold mb-3">Social Medias</h2>
 
-          <ul class="list-sosmed">
-            <a href="#"><img src="./assets/facebook2.svg" alt="" /></a>
-            <a href="#"><img src="./assets/twitter-x2.svg" alt="" /></a>
-            <a href="https://www.instagram.com/alberttirtok/" target="_blank"
-              ><img src="./assets/instagram2.svg" alt=""
-            /></a></li>
-          </ul>
+      function updateCartCount() {
+        let cart = JSON.parse(sessionStorage.getItem("cart"));
+        var cartSizeDisplay = cart ? cart.length : 0; // If cart is falsy, set it to 0
+        $(".cart-size").text(cartSizeDisplay);
+      }
+    </script>
+
+    <footer class="bg-dark text-light">
+      <div class="container py-4 text-center">
+        <h2 class="fw-bold mb-3">Connect with Us</h2>
+        <p class="mb-2">Email: altequipment23@gmail.com</p>
+        <p>Phone: +12 345-678-901</p>
+
+        <div class="list-sosmed mt-4 d-flex justify-content-center">
+          <a href="#"><img src="./assets/facebook2.svg" alt="" /></a>
+
+          <a href="#"><img src="./assets/twitter-x2.svg" alt="" /></a>
+
+          <a href="https://www.instagram.com/alberttirtok/" target="_blank"
+            ><img src="./assets/instagram2.svg" alt=""
+          /></a>
         </div>
       </div>
-    </div>
-  </footer>
-  
+    </footer>
+  </body>
 </html>

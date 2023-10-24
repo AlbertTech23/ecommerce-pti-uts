@@ -57,7 +57,7 @@
                 both software development and hardware engineering. With a keen
                 eye on the future, I'm committed to shaping innovative solutions
                 and contributing to the exciting advancements in the world of
-                technology."
+                technology.
               </p>
             </div>
           </div>
@@ -97,21 +97,17 @@
           });
         });
     </script>
-
     <script>
       $(document).ready(function () {
         var cartSize = JSON.parse(sessionStorage.getItem("cart"));
-
-        if (cartSize !== null) {
-          $(".cart-size").text(cartSize.length);
-        } else {
-          $(".cart-size").text(0);
-        }
+        var cartSizeDisplay = cartSize || 0;
+        $(".cart-size").text(cartSizeDisplay);
       });
 
       function updateCartCount() {
         let cart = JSON.parse(sessionStorage.getItem("cart"));
-        $(".cart-size").text(cart.length);
+        var cartSizeDisplay = cart ? cart.length : 0;
+        $(".cart-size").text(cartSizeDisplay);
       }
     </script>
   </body>
