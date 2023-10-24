@@ -1,7 +1,4 @@
 body {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -14,8 +11,8 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: #fff; /* Adjust the background color as needed */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow for a visual effect */
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cardContainer {
@@ -25,25 +22,21 @@ body {
   flex-wrap: wrap;
 }
 
-/* Style for each product card */
 .cardContainer {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
-/* Hover effect on product cards */
 .cardContainer:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Style for product image */
 .cardContainer img {
   border-radius: 8px;
 }
 
-/* Style for product details */
 .cardContainer {
   padding: 20px;
 }

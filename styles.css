@@ -20,25 +20,6 @@ body {
   object-fit: cover;
 }
 
-/* .landingPageContainer {
-  border: 2px solid black;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 25px;
-  width: 1000px;
-  height: 750px;
-  display: flex;
-  align-items: center;
-  background-image: url("assets/cameralens.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: right 50%;
-} */
-
-/* .imgContainer {
-  width: 500px;
-  overflow: hidden;
-} */
-
 .landingPageContainer {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 25px;
@@ -58,17 +39,12 @@ body {
 
 .imgContainer img {
   width: 1000px;
-  /* height: 750px; */
   height: auto;
   transform: rotate(180deg);
   overflow: hidden;
 }
 
 .loginContainer {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-  /* justify-content: center; */
   width: 400px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
@@ -79,8 +55,6 @@ body {
 .loginContainer img {
   width: 100px;
   height: 100px;
-  /* margin-top: 50px; */
-  /* margin-bottom: 50px; */
 }
 
 .bottomLinks a {
@@ -100,10 +74,6 @@ body {
   }
 
   .loginContainer {
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
-    /* justify-content: center; */
     width: 400px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 25px;
