@@ -93,5 +93,43 @@ body {
   margin-right: 25px;
 }
 
+.popularBrands img {
+  width: 100px;
+  height: auto;
+  margin: 50px;
+  cursor: pointer;
+}
+
+.brandContainer {
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carousel-inner img {
+  width: 100%; /* Set the width to 100% */
+  height: 100vh; /* Set the desired height */
+  object-fit: cover; /* This will crop and center the image within the specified dimensions */
+  object-position: center; /* Adjust the positioning as needed */
+}
+
+#navbarContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+  background-color: #212529;
+  color: white;
+}
+
+.list-sosmed img {
+  margin-left: 10px;
+}
+
 @media (max-width: 1200px) {
 }
